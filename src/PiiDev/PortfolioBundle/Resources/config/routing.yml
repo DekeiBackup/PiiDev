@@ -1,7 +1,7 @@
 portfolio_comingsoon:
-    path:     /
+    path:     /index
     defaults: { _controller: PortfolioBundle:ComingSoon:index }
 portfolio_index:
-    path: /index
+    path: /
     defaults:
       _controller: PortfolioBundle:Portfolio:index
