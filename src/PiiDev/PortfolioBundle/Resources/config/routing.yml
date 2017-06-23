@@ -1,7 +1,12 @@
 portfolio_comingsoon:
-    path:     /index
+    path:     /soon
     defaults: { _controller: PortfolioBundle:ComingSoon:index }
 portfolio_index:
     path: /
     defaults:
       _controller: PortfolioBundle:Portfolio:index
+portfolio_commandes:
+      path: /commandes/{titre}
+      defaults:
+        _controller: PortfolioBundle:Commandes:index
+        titre: "VPS"
