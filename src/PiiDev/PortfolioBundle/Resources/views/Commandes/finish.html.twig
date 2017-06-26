@@ -14,7 +14,8 @@
         background-color: #363940;
       }
       .margined{
-        margin-top: 10%;
+        margin-top: 2%;
+        margin-bottom: 1%;
       }
     </style>
   </head>
@@ -24,11 +25,51 @@
     <div class="well col-sm-10">
 <div class="container-fluid" style="text-align: center;">
       <h2 style="text-decoration: underline; font-weight: bold; margin-bottom: 5%">Récapitulatif de la commande</h2>
-<pre style="text-align: left;">   Nom d'utilisateur : {{ commande.nom }}</pre>
-<pre style="text-align: left;">   Adresse email : {{ commande.email }}</pre>
-<pre style="text-align: left;">   Service souhaité : {{ commande.titre }}</pre>
-<pre style="text-align: left;">   Description de votre projet : {{ commande.description }}</pre>
-<br>
-<a href="{{ path('portfolio_index') }}"><h4>Retourner sur le site</h4></a>
+      <div class="alert alert-success" role="alert">Votre commande à bien été prise en compte, nous vous recontacterons par email.</div>
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">Nom d'utilisateur</h3>
+  </div>
+  <div class="panel-body">
+    <div class="well well-sm" style="margin-bottom: 0%">
+      {{ commande.nom }}
+    </div>
+  </div>
 </div>
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">Adresse email</h3>
+  </div>
+  <div class="panel-body">
+    <div class="well well-sm" style="margin-bottom: 0%">
+      {{ commande.email }}
+    </div>
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">Service souhaité</h3>
+  </div>
+  <div class="panel-body">
+    <div class="well well-sm" style="margin-bottom: 0%">
+      {{ commande.titre }}
+    </div>
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">Description de votre projet</h3>
+  </div>
+  <div class="panel-body">
+    <div class="well well-sm" style="margin-bottom: 0%">
+      {{ commande.description }}
+    </div>
+  </div>
+</div>
+<div class="alert alert-warning" role="alert">N'hésitez pas à passer sur notre <a href="https://discord.gg/XBT3ZVu" target="_blank" class="alert-link">Discord</a>.</div>
+<a href="{{ path('portfolio_index') }}" class="btn btn-default btn-md btn-block "><h4>Retourner sur le site</h4></a>
+</div>
+</div>
+</div>
+</body>
 </html>

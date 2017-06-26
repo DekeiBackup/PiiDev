@@ -45,7 +45,7 @@ class CommandesController extends Controller
           ->add('email', EmailType::class, array('label' => 'Adresse email :'))
           ->add('titre', TextType::class, array('disabled' => true, 'label' => 'Service souhaité :'))
           ->add('description', TextareaType::class, array('label' => 'Description de votre projet :'))
-          ->add('save', SubmitType::class)
+          ->add('save', SubmitType::class, array('label' => 'Commander mon service', 'attr' => array('class' => 'btn btn-default btn-lg btn-block')))
         ;
 
         $form = $formBuillder->getForm();

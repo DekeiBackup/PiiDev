@@ -10,3 +10,19 @@ portfolio_commandes:
       defaults:
         _controller: PortfolioBundle:Commandes:index
         titre: "VPS"
+portfolio_panel:
+      path: /panel
+      defaults:
+        _controller: PortfolioBundle:Panel:index
+portfolio_panel_commandes:
+      path: /panel/commandes
+      defaults:
+        _controller: PortfolioBundle:PanelCommandes:index
+portfolio_panel_commandes_remove:
+      path: /panel/commandes/remove/{id}
+      defaults:
+        _controller: PortfolioBundle:PanelCommandes:remove
+portfolio_panel_commandes_status:
+      path: /panel/commandes/status/{id}/{status}
+      defaults:
+        _controller: PortfolioBundle:PanelCommandes:status

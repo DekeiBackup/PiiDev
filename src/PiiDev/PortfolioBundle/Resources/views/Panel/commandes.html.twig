@@ -1,0 +1,142 @@
+{% extends "PortfolioBundle:Panel:index.html.twig" %}
+
+{% block titre %}Commandes{% endblock %}
+{% block sous_titre %}Liste des commandes PiiDev{% endblock %}
+{% block body %}
+<div class="panel panel-border panel-custom" style="margin-bottom: 57px">
+    <div class="panel-heading">
+        <h3 class="panel-title">Liste des commandes</h3>
+    </div>
+    {% for commande in commandes %}
+    <div class="panel-body">
+      <div class="card-box m-b-10">
+          <div class="table-box opport-box">
+              <div class="table-detail">
+                  <div class="member-info">
+                      <h4 class="m-t-0"><b>{{ commande.titre }}</b></h4>
+                      <p class="text-dark m-b-5"><b>Nom d'utilisateur: </b> <span class="text-muted">{{ commande.nom }}</span></p>
+                      <p class="text-dark m-b-0"><b>Adresse email: </b> <span class="text-muted">{{ commande.email }}</span></p>
+                  </div>
+              </div>
+
+              <div class="table-detail">
+                  <div class="member-info">
+                    <h4></h4>
+                    <p class="text-dark m-b-5"><b>Description du projet: </b> <button class="btn btn-primary btn-custom waves-effect waves-light btn-xs" id="sa-{{ commande.id }}"><i class="fa fa-file-text m-r-5"></i>Afficher la description</button></p>
+                  </div>
+              </div>
+
+              {% if commande.status == 2 %}
+                <div class="table-detail lable-detail">
+                    <span class="label label-success">Terminé</span>
+                </div>
+
+                <div class="table-detail table-actions-bar">
+                    <a href="#" class="table-action-btn"><i class="md md-archive"></i></a>
+                    <a href="#" class="table-action-btn remove-{{ commande.id }}"><i class="md md-delete"></i></a>
+                </div>
+              {% elseif commande.status == 1 %}
+                <div class="table-detail lable-detail">
+                    <span class="label label-warning">En cours de traitement</span>
+                </div>
+
+                <div class="table-detail table-actions-bar">
+                    <a href="#" class="table-action-btn fin-{{ commande.id }}"><i class="md md-check"></i></a>
+                    <a href="#" class="table-action-btn remove-{{ commande.id }}"><i class="md md-delete"></i></a>
+                </div>
+              {% else %}
+                <div class="table-detail lable-detail">
+                    <span class="label label-danger">En attente</span>
+                </div>
+
+                <div class="table-detail table-actions-bar">
+                    <a href="#" class="table-action-btn pec-{{ commande.id }}"><i class="md md-add-shopping-cart"></i></a>
+                    <a href="#" class="table-action-btn remove-{{ commande.id }}"><i class="md md-delete"></i></a>
+                </div>
+              {% endif %}
+          </div>
+      </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+{% block js %}
+
+  {% for commande in commandes %}
+  $('#sa-{{ commande.id }}').click(function () {
+      swal("{{ commande.titre | e('js') }}", "{{ commande.description | e('js') }}");
+  });
+
+  $('.pec-{{ commande.id }}').click(function () {
+    swal({
+      title: "Êtes-vous sûr de prendre en charge cette commande ?",
+      text: "Une fois prise en charge, vous êtes obliger de terminer cette commande !",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Oui",
+      confirmButtonColor: "#5d9cec",
+      cancelButtonColor: "#f05050",
+      cancelButtonText: "Non",
+      closeOnConfirm: false,
+      closeOnCancel: true
+    },
+    function(isConfirm){
+      if (isConfirm) {
+        swal({
+          title: "Au travail !",
+          text: "Vous avez prit en charge cette commande.",
+          type: "success"
+        },
+        function(){
+          document.location.href = "{{ path('portfolio_panel_commandes_status', {'id': commande.id, 'status': 1}) }}";
+        });
+      }
+    });
+  });
+
+  $('.remove-{{ commande.id }}').click(function () {
+    swal({
+      title: "Êtes-vous sûr de vouloir supprimer cette commande ?",
+      text: "La suppression d'une commande est définitive !",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Oui",
+      confirmButtonColor: "#5d9cec",
+      cancelButtonColor: "#f05050",
+      cancelButtonText: "Non",
+      closeOnConfirm: false,
+      closeOnCancel: true
+    },
+    function(isConfirm){
+      if (isConfirm) {
+        swal({
+          title: "Suppression effectuée!",
+          text: "La commande a bien été supprimée.",
+          type: "success"
+        },
+        function(){
+          document.location.href = "{{ path('portfolio_panel_commandes_remove', {'id': commande.id}) }}";
+        });
+      }
+    });
+  });
+
+  $('.fin-{{ commande.id }}').click(function () {
+    swal({
+      title: "Avez-vous terminé votre commande ?",
+      type: "success",
+      showCancelButton: true,
+      confirmButtonText: "Oui",
+      confirmButtonColor: "#5d9cec",
+      cancelButtonColor: "#f05050",
+      cancelButtonText: "Non",
+      closeOnConfirm: false,
+      closeOnCancel: true
+    },
+    function(){
+      document.location.href = "{{ path('portfolio_panel_commandes_status', {'id': commande.id, 'status': 2}) }}";
+    });
+  });
+  {% endfor %}
+
+{% endblock %}

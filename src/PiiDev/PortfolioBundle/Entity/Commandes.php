@@ -3,6 +3,7 @@
 namespace PiiDev\PortfolioBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Commandes
@@ -49,6 +50,26 @@ class Commandes
      */
     private $email;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="status", type="integer")
+     */
+    private $status;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     * @Assert\DateTime()
+     */
+    private $date;
+
+    public function __construct()
+    {
+      $this->status = 0;
+      $this->date   = new \Datetime();
+    }
 
     /**
      * Get id
@@ -154,5 +175,53 @@ class Commandes
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Set status
+     *
+     * @param integer $status
+     *
+     * @return Commandes
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return integer
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return Commandes
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
     }
 }
