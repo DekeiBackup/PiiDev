@@ -1,24 +1,40 @@
 # To get started with security, check out the documentation:
 # https://symfony.com/doc/current/security.html
 security:
+  encoders:
+    Symfony\Component\Security\Core\User\User: plaintext
+    PiiDev\UserBundle\Entity\User: plaintext
 
-    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
-    providers:
-        in_memory:
-            memory: ~
+  role_hierarchy:
+    ROLE_ADMIN:       ROLE_USER
+    ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
-    firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+  providers:
+    panel:
+      entity:
+        class:    PiiDev\UserBundle\Entity\User
+        property: username
 
-        main:
-            anonymous: ~
-            # activate different ways to authenticate
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    main_login:
+      pattern: ^/login$
+      anonymous: true
+    panel:
+      pattern:   ^/panel
+      anonymous: true
+      provider: panel
+      form_login:
+        login_path: login
+        check_path: login_check
+      logout:
+        path:       logout
+        target:     portfolio_panel
+    main:
+      pattern: ^/
+      anonymous: true
 
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-            #http_basic: ~
-
-            # https://symfony.com/doc/current/security/form_login_setup.html
-            #form_login: ~
+  access_control:
+    - { path: ^/panel, roles: ROLE_ADMIN}

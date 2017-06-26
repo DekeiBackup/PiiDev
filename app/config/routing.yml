@@ -1,3 +1,11 @@
 portfolio:
     resource: "@PortfolioBundle/Resources/config/routing.yml"
     prefix:   /
+login:
+    path: /login
+    defaults:
+        _controller: PiiDevUserBundle:Security:login
+logout:
+    path: /panel/logout
+login_check:
+    path: /panel/login_check
