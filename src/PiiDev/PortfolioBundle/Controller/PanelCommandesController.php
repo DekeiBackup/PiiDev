@@ -23,9 +23,25 @@ class PanelCommandesController extends Controller
       $repository = $this->getDoctrine()->getManager()->getRepository('PortfolioBundle:Commandes');
       $commande = $repository->find($id);
 
+      $mailer = $this->get('mailer');
+
+      $message = $mailer->createMessage()
+        ->setSubject('Suivi de votre commande')
+        ->setFrom('piidev.contact@gmail.com')
+        ->setTo($commande->getEmail())
+        ->setBody(
+          $this->renderView(
+              'Emails/email.html.twig',
+              array('nom' => $commande->getNom(), 'titre' => 'Annulation de votre commande', 'id' => $id)
+          ),
+          'text/html'
+        );
+
       $em = $this->getDoctrine()->getEntityManager();
       $em->remove($commande);
       $em->flush();
+
+      $mailer->send($message);
 
       return $this->redirectToRoute('portfolio_panel_commandes');
     }
@@ -40,6 +56,30 @@ class PanelCommandesController extends Controller
       $em = $this->getDoctrine()->getEntityManager();
       $em->persist($commande);
       $em->flush();
+
+      $mailer = $this->get('mailer');
+
+      $titre = "";
+
+      if($status == 1){
+        $titre = 'Prise en charge de votre commande';
+      }else {
+        $titre = 'Livraison de votre commande';
+      }
+
+      $message = $mailer->createMessage()
+        ->setSubject('Suivi de votre commande')
+        ->setFrom('piidev.contact@gmail.com')
+        ->setTo($commande->getEmail())
+        ->setBody(
+          $this->renderView(
+              'Emails/email.html.twig',
+              array('nom' => $commande->getNom(), 'titre' => $titre, 'id' => $id)
+          ),
+          'text/html'
+        );
+
+      $mailer->send($message);
 
       return $this->redirectToRoute('portfolio_panel_commandes');
     }

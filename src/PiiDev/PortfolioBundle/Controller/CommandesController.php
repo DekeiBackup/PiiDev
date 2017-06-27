@@ -55,6 +55,20 @@ class CommandesController extends Controller
           $em->persist($commande);
           $em->flush();
 
+          $mailer = $this->get('mailer');
+
+          $message = $mailer->createMessage()
+            ->setSubject('Suivi de votre commande')
+            ->setFrom('piidev.contact@gmail.com')
+            ->setTo($commande->getEmail())
+            ->setBody(
+              $this->renderView(
+                  'Emails/email.html.twig',
+                  array('nom' => $commande->getNom(), 'titre' => 'Réception de votre commande')
+              ),
+              'text/html'
+            );
+
           //return $this->redirectToRoute('portfolio_comingsoon');
           return $this->render('PortfolioBundle:Commandes:finish.html.twig', array(
             'commande' => $commande
